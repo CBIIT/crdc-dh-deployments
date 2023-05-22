@@ -291,13 +291,13 @@ variable "aws_account_id" {
 }
 
 # Secrets
-variable "secret_values" {
-  type = map(object({
-    secretKey   = string
-    secretValue = map(string)
-    description = string
-  }))
-}
+#variable "secret_values" {
+#  type = map(object({
+#    secretKey   = string
+#    secretValue = map(string)
+#    description = string
+#  }))
+#}
 
 # Security Group
 variable "allowed_ip_blocks" {
