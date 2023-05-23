@@ -13,7 +13,7 @@ module "alb" {
 }
 
 module "s3" {
-  source                        = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3?ref=v1.0"
+  source                        = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3?ref=v1.4"
   bucket_name                   = local.alb_log_bucket_name
   stack_name                    = var.project
   env                           = terraform.workspace
