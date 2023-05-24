@@ -290,4 +290,14 @@ data "aws_iam_policy_document" "s3_alb_policy" {
       type        = "Service"
     }
   }
+  statement {
+    sid       = "awslogdeliveryacl"
+    effect    = "Allow"
+    actions   = ["s3:PutBucketAcl"]
+    resources = ["arn:aws:s3:::${module.s3.bucket_name}"]
+    principals {
+      identifiers = ["delivery.logs.amazonaws.com"]
+      type        = "Service"
+    }
+  }
 }
