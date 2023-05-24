@@ -291,7 +291,7 @@ data "aws_iam_policy_document" "s3_alb_policy" {
     }
   }
   statement {
-    sid       = "awslogdeliveryacl"
+    sid       = "awslogdeliveryacl2"
     effect    = "Allow"
     actions   = ["s3:PutBucketAcl"]
     resources = ["arn:aws:s3:::${module.s3.bucket_name}"]
