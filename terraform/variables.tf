@@ -4,6 +4,9 @@ variable "project" {
   type        = string
 }
 
+variable "tier" {
+  type = string
+}
 variable "tags" {
   description = "tags to associate with this instance"
   type        = map(string)
@@ -286,7 +289,7 @@ variable "aws_account_id" {
   type = map(string)
   description = "aws account to allow for alb s3 logging"
   default = {
-    us-east-1 = "782317370611"
+    us-east-1 = "127311923021"
   }
 }
 

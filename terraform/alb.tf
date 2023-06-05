@@ -1,6 +1,7 @@
 module "alb" {
-  source              = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/loadbalancer?ref=v1.4"
+  source              = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/loadbalancer?ref=v1.5"
   vpc_id              = var.vpc_id
+  resource_prefix     = local.resource_prefix
   alb_log_bucket_name = module.s3.bucket_name
   env                 = terraform.workspace
   alb_internal        = var.internal_alb
@@ -13,7 +14,8 @@ module "alb" {
 }
 
 module "s3" {
-  source                        = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3?ref=v1.4"
+  source                        = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3?ref=v1.5"
+  resource_prefix     = local.resource_prefix
   bucket_name                   = local.alb_log_bucket_name
   stack_name                    = var.project
   env                           = terraform.workspace

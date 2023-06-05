@@ -29,7 +29,7 @@ locals {
   cert_types          = "IMPORTED"
   
   # ECR
-  resource_prefix = var.project
+  resource_prefix = "${var.project}-${var.tier}"
   
   # ECS
   application_url = terraform.workspace == "prod" ? var.domain_name : "${var.application_subdomain}-${terraform.workspace}.${var.domain_name}"
