@@ -147,11 +147,11 @@ variable "s3_force_destroy" {
 #}
 
 # ECR
-#variable "create_ecr_repos" {
-#  type        = bool
+variable "create_ecr_repos" {
+  type        = bool
 #  default     = false
-#  description = "choose whether to create ecr repos or not"
-#}
+  description = "choose whether to create ecr repos or not"
+}
 
 #variable "create_env_specific_repo" {
 #  description = "choose to create environment specific repo. Example bento-dev-frontend"
@@ -159,10 +159,10 @@ variable "s3_force_destroy" {
 #  default     = false
 #}
 
-#variable "ecr_repo_names" {
-#  description = "list of repo names"
-#  type        = list(string)
-#}
+variable "ecr_repo_names" {
+  description = "list of repo names"
+  type        = list(string)
+}
 
 # ECS
 #variable "add_opensearch_permission" {
