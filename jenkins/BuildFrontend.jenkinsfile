@@ -47,7 +47,7 @@ pipeline {
 	  SERVICE      = "frontend"
 	  ECR_REPO     = "crdc-dh-dev-frontend"
 	  DEPLOY_JOB   = "DeployFrontend"
-	  SLACK_SECRET = "crdc_dh_slack_url"
+	  SLACK_SECRET = "crdc-dh_slack_url"
 	  CODE_REPO    = "crdc-datahub-ui"
 	  JOB_PATH     = "_default/_lower/CRDC-DH/_jobs"
 	  REGION       = "us-east-1"
