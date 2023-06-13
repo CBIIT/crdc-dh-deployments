@@ -4,7 +4,7 @@ pipeline {
 	agent {
 		node {
 			//label 'ctdc-docker'
-			label 'slave-ncias-d2947-c'
+			label 'crdc-dh-docker'
 		}
 	}
 
@@ -31,8 +31,8 @@ pipeline {
 
   environment {
 
-      PROJECT      = 'ctdc'
-	  SLACK_SECRET = "ctdc_slack_url"
+      PROJECT      = 'crdc-dh'
+	  SLACK_SECRET = "crdcdh_slack_url"
 
   }
 
@@ -47,7 +47,7 @@ pipeline {
 			relativeTargetDir: "playbooks"]],
 			submoduleCfg: [],
 			userRemoteConfigs:
-			[[url: 'https://github.com/CBIIT/ctdc-deployments']]])
+			[[url: 'https://github.com/CBIIT/crdc-dh-deployments']]])
 
         checkout([$class: 'GitSCM',
 			branches: [[name: "${params.Environment}"]],
@@ -56,7 +56,7 @@ pipeline {
 			relativeTargetDir: "${env.PROJECT}-deployments"]],
 			submoduleCfg: [],
 			userRemoteConfigs:
-			[[url: 'https://github.com/CBIIT/ctdc-deployments']]])
+			[[url: 'https://github.com/CBIIT/crdc-dh-deployments']]])
 
         }
 
@@ -87,8 +87,8 @@ pipeline {
                         tier: "${params.Environment}",
 						project_name: "${PROJECT}",
 						iam_prefix: "power-user",
-						subdomain: "trialcommons",
-						domain_name: "cancer.gov",
+						subdomain: "datahub",
+						domain_name: "datacommons.cancer.gov",
 						auth_enabled: false
 						],
                     colorized: true)

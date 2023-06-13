@@ -73,14 +73,15 @@ pipeline {
         }
 
 	    environment {
-            BE_VERSION = "${params.ImageTag}"
+            FE_VERSION = "${params.ImageTag}"
+            BE_VERSION = getVersion(service: "backend",deploymentFile: "${PROJECT}-deployments/deployments.yaml")
         }
 
  		steps {
 
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                 ansiblePlaybook(
-					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/deploy-backend-microservice.yml", 
+					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/deploy-authz-microservice.yml", 
             		inventory: "${WORKSPACE}/playbooks/ansible/playbooks/hosts",
                     extraVars: [
                         tier: "${params.Environment}",
@@ -92,6 +93,7 @@ pipeline {
 						],
                     colorized: true)
  			}
+
  		}
 
   	}
