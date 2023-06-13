@@ -3,7 +3,7 @@
 pipeline {
 	agent {
 		node {
-			label 'slave-ncias-d2947-c'
+			label 'crdc-dh-docker'
 		}
 	}
 
@@ -24,7 +24,7 @@ pipeline {
             selectedValue: 'DEFAULT',
             sortMode: 'ASCENDING_SMART',
             tagFilter: '*',
-            useRepository: 'https://github.com/CBIIT/bento-backend')
+            useRepository: 'https://github.com/cbiit/crdc-datahub-backend')
 
         booleanParam(
             defaultValue: true,
@@ -43,13 +43,13 @@ pipeline {
 
   environment {
 
-      PROJECT      = "ctdc"
+      PROJECT      = "crdc-dh"
 	  SERVICE      = "backend"
-	  ECR_REPO     = "ctdc-backend"
+	  ECR_REPO     = "crdc-dh-dev-backend"
 	  DEPLOY_JOB   = "DeployBackend"
-	  SLACK_SECRET = "ctdc_slack_url"
-	  CODE_REPO    = "bento-backend"
-	  JOB_PATH     = "_default/_lower/CTDC/_jobs"
+	  SLACK_SECRET = "crdcdh_slack_url"
+	  CODE_REPO    = "crdc-datahub-backend"
+	  JOB_PATH     = "_default/_lower/CRDC-DH/_jobs"
 	  REGION       = "us-east-1"
 	  DEPLOY_REPO  = "${env.PROJECT}-deployments"
       CODE_BRANCH  = "${params.CodeBranch}"
