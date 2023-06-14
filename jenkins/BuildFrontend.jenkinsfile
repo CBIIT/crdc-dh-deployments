@@ -170,6 +170,10 @@ pipeline {
   	stage('Update Deployment Manifest'){
 
  		steps {
+                        sh "git checkout dev"
+                        sh "git branch"
+                        sh "ls -la"
+                        sh "pwd"
  			
 			script {
                 if (params.UpdateDeploymentVersion) {
