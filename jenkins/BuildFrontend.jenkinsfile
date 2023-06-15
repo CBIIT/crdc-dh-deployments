@@ -185,7 +185,8 @@ pipeline {
                         service: "${env.SERVICE}",
                         deploymentFile: "${env.PROJECT}-deployments/deployments.yaml",
                         deploymentRepoUrl: "https://github.com/CBIIT/${env.DEPLOY_REPO}",
-                        deploymentCheckoutDirectory: "${env.PROJECT}-deployments/${env.PROJECT}-deployments"
+                        #deploymentCheckoutDirectory: "${env.PROJECT}-deployments"
+                        deploymentCheckoutDirectory: "crdc-dh-deployments"
                     )
                 }
             }
