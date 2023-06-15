@@ -6,9 +6,9 @@ services:
     image: CTDC-Develop.18
     buildNumber: '18'
   frontend:
-    version: tracy-build.28
-    image: tracy-build.28
-    buildNumber: '28'
+    version: tracy-build.30
+    image: tracy-build.30
+    buildNumber: '30'
   files:
     version: 1.4.0.21
     image: 1.4.0.21
