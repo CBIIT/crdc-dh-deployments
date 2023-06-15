@@ -45,6 +45,7 @@
         ## about content
         about_content_url: "{% if tier == 'prod' %}https://raw.githubusercontent.com/CBIIT/bento-ctdc-frontend/{{ frontend_version | split('-') | first }}/src/content/prod/aboutPagesContent.yaml{% else %}https://raw.githubusercontent.com/CBIIT/bento-ctdc-frontend/{{ frontend_version | split('-') | first }}/src/content/{{ tier }}/aboutPagesContent.yaml{% endif %}"
         ## ecs
+        ecs_cluster_name: "{{ project_name }}-{{ tier }}-ecs"
         container_port: 80
         container_memory: "512"
         container_cpu: "256"
