@@ -65,7 +65,7 @@ pipeline {
 			branches: [[name: "${env.CODE_BRANCH}"]],
 			doGenerateSubmoduleConfigurations: false,
 			extensions: [[$class: 'RelativeTargetDirectory',
-			relativeTargetDir: "$WORKSPACE/${env.CODE_FOLDER}"]],
+			relativeTargetDir: "${env.CODE_FOLDER}"]],
 			submoduleCfg: [],
 			userRemoteConfigs:
 			[[url: "https://github.com/CBIIT/${env.CODE_REPO}"]]])
@@ -74,7 +74,7 @@ pipeline {
 			branches: [[name: "${params.Environment}"]],
 			doGenerateSubmoduleConfigurations: false,
 			extensions: [[$class: 'RelativeTargetDirectory',
-			relativeTargetDir: "$WORKSPACE/${env.PROJECT}-deployments"]],
+			relativeTargetDir: "${env.PROJECT}-deployments"]],
 			submoduleCfg: [],
 			userRemoteConfigs:
 			[[url: "https://github.com/CBIIT/${env.DEPLOY_REPO}"]]])
@@ -170,12 +170,6 @@ pipeline {
   	stage('Update Deployment Manifest'){
 
  		steps {
-                        sh "git checkout dev"
-                        sh "git branch"
-                        sh "ls -la"
-                        sh "pwd"
-                        sh "cd ${env.PROJECT}-deployments"
-                        sh "ls -la"
  			
 			script {
                 if (params.UpdateDeploymentVersion) {
@@ -185,8 +179,7 @@ pipeline {
                         service: "${env.SERVICE}",
                         deploymentFile: "${env.PROJECT}-deployments/deployments.yaml",
                         deploymentRepoUrl: "https://github.com/CBIIT/${env.DEPLOY_REPO}",
-                        //deploymentCheckoutDirectory: "${env.PROJECT}-deployments"
-                        deploymentCheckoutDirectory: "crdc-dh-deployments"
+                        deploymentCheckoutDirectory: "${env.PROJECT}-deployments"
                     )
                 }
             }
