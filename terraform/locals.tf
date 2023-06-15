@@ -28,7 +28,6 @@ locals {
   alb_log_bucket_name = terraform.workspace == "prod" || terraform.workspace == "stage" ? "prod-alb-access-logs" : "nonprod-alb-access-logs"
   cert_types          = "IMPORTED"
   
-  # ECR
   resource_prefix = "${var.project}-${var.tier}"
   
   # ECS
