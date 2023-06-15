@@ -65,7 +65,7 @@ pipeline {
 			branches: [[name: "${env.CODE_BRANCH}"]],
 			doGenerateSubmoduleConfigurations: false,
 			extensions: [[$class: 'RelativeTargetDirectory',
-			relativeTargetDir: "${env.CODE_FOLDER}"]],
+			relativeTargetDir: "$WORKSPACE/${env.CODE_FOLDER}"]],
 			submoduleCfg: [],
 			userRemoteConfigs:
 			[[url: "https://github.com/CBIIT/${env.CODE_REPO}"]]])
@@ -74,7 +74,7 @@ pipeline {
 			branches: [[name: "${params.Environment}"]],
 			doGenerateSubmoduleConfigurations: false,
 			extensions: [[$class: 'RelativeTargetDirectory',
-			relativeTargetDir: "${env.PROJECT}-deployments"]],
+			relativeTargetDir: "$WORKSPACE/${env.PROJECT}-deployments"]],
 			submoduleCfg: [],
 			userRemoteConfigs:
 			[[url: "https://github.com/CBIIT/${env.DEPLOY_REPO}"]]])
