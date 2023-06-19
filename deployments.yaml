@@ -17,3 +17,7 @@ services:
     version: 1.0.0.3
     image: 1.0.0.3
     buildNumber: '3'
+  authz:
+    version: 1.0.0.2
+    image: 1.0.0.2
+    buildNumber: '2'
