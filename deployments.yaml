@@ -13,3 +13,7 @@ services:
     version: 1.4.0.21
     image: 1.4.0.21
     buildNumber: '21'
+  authn:
+    version: 1.0.0.2
+    image: 1.0.0.2
+    buildNumber: '2'
