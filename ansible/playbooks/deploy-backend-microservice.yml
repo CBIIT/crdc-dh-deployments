@@ -37,9 +37,12 @@
         image_version: "{{ lookup('env','BE_VERSION') }}"
         tier: "{{ lookup('env','TIER') }}"
         ecs_cluster_name: "{{ project_name }}-{{ tier }}-ecs"
-#        neo4j_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_user', nested=true, region='us-east-1' ) }}"
-#        neo4j_ip: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_ip', nested=true, region='us-east-1' ) }}"
-#        neo4j_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_password', nested=true, region='us-east-1' ) }}"
+        mongo_db_host: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_host', nested=true, region='us-east-1' ) }}"
+        mongo_db_port: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_port', nested=true, region='us-east-1' ) }}"
+        mongo_db_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_password', nested=true, region='us-east-1' ) }}"
+        mongo_db_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_user', nested=true, region='us-east-1' ) }}"
+        mongo_db_database: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_database', nested=true, region='us-east-1' ) }}"
+#        cookie_secret: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.cookie_secret', nested=true, region='us-east-1' ) }}"
         newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
         sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
         sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_backend', nested=true, region='us-east-1' ) }}"
@@ -69,14 +72,18 @@
           - name: BENTO_API_VERSION
             value: "{{ image_version }}"
           ## Database
-#          - name: NEO4J_URL
-#            value: "bolt://{{ neo4j_ip }}:7687"
-#          - name: NEO4J_USER
-#            value: "{{ neo4j_user }}"
-#          - name: NEO4J_PASSWORD
-#            value: "{{ neo4j_password }}"
-#          - name: NEO4J_GRAPHQL_ENDPOINT
-#            value: "http://{{ neo4j_ip }}:7474/graphql/"
+          - name: MONGO_DB_HOST
+            value: "{{ mongo_db_host }}"
+          - name: MONGO_DB_PORT
+            value: "{{ mongo_db_port }}"
+          - name: MONGO_DB_PASSWORD
+            value: "{{ mongo_db_password }}"
+          - name: MONGO_DB_USER
+            value: "{{ mongo_db_user }}"
+          - name: MONGO_DB_DATABASE
+            value: "{{ mongo_db_database }}"
+          #- name: COOKIE_SECRET
+          #  value: "{{ cookie_secret }}"
           ## Opensearch
 #          - name: ES_HOST
 #            value: "{{ es_host }}"
