@@ -57,10 +57,10 @@
         #use_cluster: "true"
         #redis_host: localhost
         #Entrypoint
-        container_entrypoint:
-          - "/bin/bash"
-          - "-c"
-          - 'wget "https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip" -O newrelic-java.zip && rm -rf newrelic && unzip -o newrelic-java.zip && bin/catalina.sh run'
+        #container_entrypoint:
+        #  - "/bin/bash"
+        #  - "-c"
+        #  - 'wget "https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip" -O newrelic-java.zip && rm -rf newrelic && unzip -o newrelic-java.zip && bin/catalina.sh run'
         #Environment
         container_env:
           - name: PROJECT
