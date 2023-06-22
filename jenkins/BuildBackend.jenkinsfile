@@ -89,9 +89,11 @@ pipeline {
 
  			script {
 
+			    sh cd $WORKSPACE/$CODE_FOLDER
+                            sh git submodule update
 			    sh label: 'Docker-Build', script: '''#!/bin/bash
 
-				cd $WORKSPACE/$CODE_FOLDER && git submodule update
+#				cd $WORKSPACE/$CODE_FOLDER && git submodule update
 				# build CTDC Docker container
 				echo "Building: $ECR_REPO:$CODE_BRANCH.$BUILD_NUMBER"
 				aws_account=$(aws sts get-caller-identity --query "Account" --output text)
