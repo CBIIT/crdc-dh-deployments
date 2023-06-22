@@ -95,7 +95,7 @@ pipeline {
 				echo "Building: $ECR_REPO:$CODE_BRANCH.$BUILD_NUMBER"
 				aws_account=$(aws sts get-caller-identity --query "Account" --output text)
 				repo_url="$aws_account.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO"
-                                git submodule update --init --recursive && ls -latr
+                                cd $CODE_FOLDER; git submodule update --init --recursive && ls -latr
 
 				cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --no-cache -t $repo_url:$CODE_BRANCH.$BUILD_NUMBER .
 
