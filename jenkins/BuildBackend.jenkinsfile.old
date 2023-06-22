@@ -89,8 +89,8 @@ pipeline {
 
  			script {
 
-			    sh 'cd $WORKSPACE/$CODE_FOLDER'
-                            sh 'git submodule update --init --recursive'
+			    sh cd $WORKSPACE/$CODE_FOLDER
+                            sh git submodule update
 			    sh label: 'Docker-Build', script: '''#!/bin/bash
 
 #				cd $WORKSPACE/$CODE_FOLDER && git submodule update
