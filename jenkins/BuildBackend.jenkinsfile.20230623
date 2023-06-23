@@ -63,21 +63,21 @@ pipeline {
 
 		checkout([$class: 'GitSCM',
 			branches: [[name: "${env.CODE_BRANCH}"]],
-                        extensions: [[$class: 'SubmoduleOption',
-                        recursiveSubmodules: true],
-                        [$class: 'RelativeTargetDirectory',
-                        relativeTargetDir: "${env.CODE_FOLDER}"]],
-                        userRemoteConfigs:
-                        [[url: "https://github.com/CBIIT/${env.CODE_REPO}"]]])
+			doGenerateSubmoduleConfigurations: false,
+			extensions: [[$class: 'RelativeTargetDirectory',
+			relativeTargetDir: "${env.CODE_FOLDER}"]],
+			submoduleCfg: [],
+			userRemoteConfigs:
+			[[url: "https://github.com/CBIIT/${env.CODE_REPO}"]]])
 
   		checkout([$class: 'GitSCM',
 			branches: [[name: "${params.Environment}"]],
-                        extensions: [[$class: 'SubmoduleOption',
-                        recursiveSubmodules: true],
-                        [$class: 'RelativeTargetDirectory',
-                        relativeTargetDir: "${env.PROJECT}-deployments"]],
-                        userRemoteConfigs:
-                        [[url: "https://github.com/CBIIT/${env.DEPLOY_REPO}"]]])
+			doGenerateSubmoduleConfigurations: false,
+			extensions: [[$class: 'RelativeTargetDirectory',
+			relativeTargetDir: "${env.PROJECT}-deployments"]],
+			submoduleCfg: [],
+			userRemoteConfigs:
+			[[url: "https://github.com/CBIIT/${env.DEPLOY_REPO}"]]])
 
         }
 
@@ -95,7 +95,7 @@ pipeline {
 				echo "Building: $ECR_REPO:$CODE_BRANCH.$BUILD_NUMBER"
 				aws_account=$(aws sts get-caller-identity --query "Account" --output text)
 				repo_url="$aws_account.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO"
-#                                cd $CODE_FOLDER; git submodule update --init --recursive && ls -latr
+                                cd $CODE_FOLDER; git submodule update --init --recursive && ls -latr
 
 				cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --no-cache -t $repo_url:$CODE_BRANCH.$BUILD_NUMBER .
 
