@@ -6,9 +6,9 @@ services:
     image: 1.0.0.16
     buildNumber: '16'
   frontend:
-    version: tracy-build.34
-    image: tracy-build.34
-    buildNumber: '34'
+    version: main.37
+    image: main.37
+    buildNumber: '37'
   files:
     version: 1.4.0.21
     image: 1.4.0.21
