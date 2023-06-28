@@ -73,8 +73,8 @@ pipeline {
         }
 
 	    environment {
-            FE_VERSION = "${params.ImageTag}"
-            BE_VERSION = getVersion(service: "backend",deploymentFile: "${PROJECT}-deployments/deployments.yaml")
+            AUTHN_VERSION = "${params.ImageTag}"
+#            BE_VERSION = getVersion(service: "backend",deploymentFile: "${PROJECT}-deployments/deployments.yaml")
         }
 
  		steps {

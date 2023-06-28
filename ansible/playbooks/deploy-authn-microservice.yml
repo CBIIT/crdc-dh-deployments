@@ -1,4 +1,4 @@
-- name: deploy auth microservice
+- name: deploy authn microservice
   hosts: all
   connection: local
   gather_facts: yes
@@ -12,7 +12,8 @@
         - community.docker:<=3.4.3
         - amazon.aws:<=5.4.0
         - community.aws:<=3.2.0
-        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,gmb
+        #- git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,gmb
+        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,v1.5
 
     #docker login
     - name: docker login
@@ -24,11 +25,11 @@
     #deploy backend
     - name: deploy stage for auth microservice
       include_role:
-        name: bento.common.ecs
+        name: bento.common.ecs_cloudwatch
       vars:
         execution_role: "{% if iam_prefix is defined and iam_prefix != '' %}{{ iam_prefix }}-{{ project_name }}-{{ tier }}-ecs-task-execution-role{% else %}{{ project_name }}-{{ tier }}-task-execution-role{% endif %}"
         task_role: "{% if iam_prefix is defined and iam_prefix != '' %}{{ iam_prefix }}-{{ project_name }}-{{ tier }}-ecs-task-role{% else %}{{ project_name }}-{{ tier }}-task-role{% endif %}"
-        auth_version: "{{ lookup('env','AUTH_VERSION') }}"
+#        authn_version: "{{ lookup('env','AUTHN_VERSION') }}"
         region: "us-east-1"
 #        idp_provider: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/google.idp_provider', nested=true, region='us-east-1' ) }}"
 #        idp_client_id: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/google.idp_client_id', nested=true, region='us-east-1' ) }}"
@@ -49,10 +50,10 @@
         ansible_python_interpreter: /usr/bin/python3
         project_name: "{{project_name}}"
         platform: aws
-        container_name: "auth"
-        image_version: "{{ auth_version }}"
-        service_name: "{{ project_name }}-{{ tier }}-auth"
-        tier: "{{ tier }}"
+        container_name: "authn"
+        image_version: "{{ lookup('env','AUTHN_VERSION') }}"
+        service_name: "{{ project_name }}-{{ tier }}-authn"
+        tier: "{{ lookup('env','TIER') }}"
         ecs_cluster_name: "{{ project_name }}-{{ tier }}-ecs"
 #        neo4j_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_user', nested=true, region='us-east-1' ) }}"
 #        neo4j_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_password', nested=true, region='us-east-1' ) }}"
@@ -67,14 +68,8 @@
         container_image_url: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}"
         #Environment
         container_env:
-          - name: NEO4J_URI
-            value: "bolt://{{neo4j_ip}}:7687"
-          - name: NEO4J_USER
-            value: "{{neo4j_user}}"
-          - name: NEO4J_PASSWORD
-            value: "{{neo4j_password}}"
           - name: VERSION
-            value: "{{auth_version}}"
+            value: "{{image_version}}"
           - name: COOKIE_SECRET
             value: "{{cookie_secret}}"
           - name: SESSION_TIMEOUT
@@ -90,32 +85,40 @@
           - name: PROJECT
             value: "{{project_name}}"
 #          - name: GOOGLE_REDIRECT_URL
-            value: "{% if tier == 'prod'  and project_name == 'bento' %}https://{{domain_name}}{% elif tier == 'prod' %}https://{{subdomain}}.{{domain_name}}{% else %}https://{{subdomain}}-{{tier}}.{{domain_name}}{% endif %}"
+#            value: "{% if tier == 'prod'  and project_name == 'bento' %}https://{{domain_name}}{% elif tier == 'prod' %}https://{{subdomain}}.{{domain_name}}{% else %}https://{{subdomain}}-{{tier}}.{{domain_name}}{% endif %}"
           - name: NEW_RELIC_LICENSE_KEY
             value: "{{ newrelic_license_key }}"
           - name: NEW_RELIC_APP_NAME
-            value: "{{project_name}}-{{tier}}-auth"
-          # MySQL Configuration
-          - name: MYSQL_HOST
-            value: "{{mysql_host}}"
-          - name: MYSQL_PORT
-            value: "3306"
-          - name: MYSQL_PASSWORD
-            value: "{{mysql_password}}"
-          - name: MYSQL_USER
-            value: "{{mysql_user}}"
-          - name: MYSQL_DATABASE
-            value: "{{mysql_database}}"
+            value: "{{project_name}}-{{tier}}-authn"
+          - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
+            value: "true"
+          - name: NEW_RELIC_HOST
+            value: "gov-collector.newrelic.com"
+          - name: NEW_RELIC_LOG_FILE_NAME
+            value: "STDOUT"
+          - name: NEW_RELIC_LABELS
+            value: "Project:{{ project_name }};Environment:{{ tier }}"
+          # Mongo DB
+          - name: MONGO_DB_HOST
+            value: "{{ mongo_db_host }}"
+          - name: MONGO_DB_PORT
+            value: "{{ mongo_db_port }}"
+          - name: MONGO_DB_PASSWORD
+            value: "{{ mongo_db_password }}"
+          - name: MONGO_DB_USER
+            value: "{{ mongo_db_user }}"
+          - name: MONGO_DB_DATABASE
+            value: "{{ mongo_db_database }}" 
           # Email Notification Config
-          - name: EMAIL_SMTP_HOST
-            value: email-smtp.us-east-1.amazonaws.com
-          - name: EMAIL_SMTP_PORT
-            value: "465"
+          #- name: EMAIL_SMTP_HOST
+          #  value: email-smtp.us-east-1.amazonaws.com
+          #- name: EMAIL_SMTP_PORT
+          #  value: "465"
           # If Sent From AWS SMTP
-          - name: EMAIL_USER
-            value: "{{email_user}}"
-          - name: EMAIL_PASSWORD
-            value: "{{email_user}}"
+          #- name: EMAIL_USER
+          #  value: "{{email_user}}"
+          #- name: EMAIL_PASSWORD
+          #  value: "{{email_user}}"
           # NIH LOGIN Config
           - name: NIH_CLIENT_ID
             value: "{{nih_client_id}}"
