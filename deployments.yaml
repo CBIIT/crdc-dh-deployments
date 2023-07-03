@@ -6,9 +6,9 @@ services:
     image: main.20
     buildNumber: '20'
   frontend:
-    version: dev.44
-    image: dev.44
-    buildNumber: '44'
+    version: dev.46
+    image: dev.46
+    buildNumber: '46'
   files:
     version: 1.4.0.21
     image: 1.4.0.21
