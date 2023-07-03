@@ -84,8 +84,8 @@
             value: "{{ mongo_db_user }}"
           - name: MONGO_DB_DATABASE
             value: "{{ mongo_db_database }}"
-          #- name: COOKIE_SECRET
-          #  value: "{{ cookie_secret }}"
+          - name: SESSION_SECRET
+            value: "abcd256asghaaamnkloofghj"
           ## Opensearch
 #          - name: ES_HOST
 #            value: "{{ es_host }}"
