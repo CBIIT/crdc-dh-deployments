@@ -4,7 +4,7 @@ pipeline {
 	agent {
 		node {
 			//label 'ctdc-docker'
-			label 'slave-ncias-d2947-c'
+			label 'crdc-dh-docker'
 		}
 	}
 
@@ -27,9 +27,9 @@ pipeline {
 
   environment {
 
-      PROJECT      = 'ctdc'
-	  JOB_PATH     = '_default/_lower/CTDC/_jobs'
-      SLACK_SECRET = "ctdc_slack_url"
+      PROJECT      = 'crdc-dh'
+	  JOB_PATH     = '_default/_lower/CRDC-DH/_jobs'
+      SLACK_SECRET = "crdcdh_slack_url"
 
   }
 
@@ -44,7 +44,7 @@ pipeline {
 			relativeTargetDir: "${env.PROJECT}-deployments"]],
 			submoduleCfg: [],
 			userRemoteConfigs:
-			[[url: 'https://github.com/CBIIT/ctdc-deployments']]])
+			[[url: 'https://github.com/CBIIT/crdc-dh-deployments']]])
 
         }
 
