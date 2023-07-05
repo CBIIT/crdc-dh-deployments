@@ -22,8 +22,8 @@
       vars:
         region: us-east-1
 
-    #deploy backend
-    - name: deploy stage for auth microservice
+    #deploy authn
+    - name: deploy stage for authn microservice
       include_role:
         name: bento.common.ecs_cloudwatch
       vars:
@@ -31,10 +31,7 @@
         task_role: "{% if iam_prefix is defined and iam_prefix != '' %}{{ iam_prefix }}-{{ project_name }}-{{ tier }}-ecs-task-role{% else %}{{ project_name }}-{{ tier }}-task-role{% endif %}"
 #        authn_version: "{{ lookup('env','AUTHN_VERSION') }}"
         region: "us-east-1"
-#        idp_provider: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/google.idp_provider', nested=true, region='us-east-1' ) }}"
-#        idp_client_id: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/google.idp_client_id', nested=true, region='us-east-1' ) }}"
-#        idp_client_secret: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/google.idp_client_secret', nested=true, region='us-east-1' ) }}"
-        cookie_secret: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih.cookie_secret', nested=true, region='us-east-1' ) }}"
+#        cookie_secret: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih.cookie_secret', nested=true, region='us-east-1' ) }}"
 
 #        email_user: "{{ lookup('amazon.aws.aws_secret', 'smtp.email_user', nested=true, region='us-east-1' ) }}"
 #        email_password: "{{ lookup('amazon.aws.aws_secret', 'smtp.email_password', nested=true, region='us-east-1' ) }}"
@@ -43,10 +40,16 @@
         mongo_db_port: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_port', nested=true, region='us-east-1' ) }}"
         mongo_db_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_password', nested=true, region='us-east-1' ) }}"
         mongo_db_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_user', nested=true, region='us-east-1' ) }}"
-        mongo_db_database: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_database', nested=true, region='us-east-1' ) }}"
+#        mongo_db_database: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_database', nested=true, region='us-east-1' ) }}"
         #nih
-        nih_client_id: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih.nih_client_id', nested=true, region='us-east-1' ) }}"
-        nih_client_secret: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih.nih_client_secret', nested=true, region='us-east-1' ) }}"
+        nih_client_id: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih/{{ tier }}.nih_client_id', nested=true, region='us-east-1' ) }}"
+        nih_client_secret: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih/{{ tier }}.nih_client_secret', nested=true, region='us-east-1' ) }}"
+        nih_base_url: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih/{{ tier }}.nih_base_url', nested=true, region='us-east-1' ) }}"
+        nih_redirect_url: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih/{{ tier }}.nih_redirect_url', nested=true, region='us-east-1' ) }}"
+        nih_userinfo_url: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih/{{ tier }}.nih_userinfo_url', nested=true, region='us-east-1' ) }}"
+        nih_authorize_url: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih/{{ tier }}.nih_authorize_url', nested=true, region='us-east-1' ) }}"
+        nih_token_url: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih/{{ tier }}.nih_token_url', nested=true, region='us-east-1' ) }}"
+        nih_logout_url: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih/{{ tier }}.nih_logout_url', nested=true, region='us-east-1' ) }}"
         ansible_python_interpreter: /usr/bin/python3
         project_name: "{{project_name}}"
         platform: aws
@@ -70,8 +73,8 @@
         container_env:
           - name: VERSION
             value: "{{image_version}}"
-          - name: COOKIE_SECRET
-            value: "{{cookie_secret}}"
+          - name: SESSION_SECRET
+            value: "abcd256asghaaamnkloofghj"
           - name: SESSION_TIMEOUT
             value: "1200"
           - name: IDP
@@ -107,8 +110,8 @@
             value: "{{ mongo_db_password }}"
           - name: MONGO_DB_USER
             value: "{{ mongo_db_user }}"
-          - name: MONGO_DB_DATABASE
-            value: "{{ mongo_db_database }}" 
+#          - name: MONGO_DB_DATABASE
+#            value: "{{ mongo_db_database }}" 
           # Email Notification Config
           #- name: EMAIL_SMTP_HOST
           #  value: email-smtp.us-east-1.amazonaws.com
@@ -125,22 +128,18 @@
           - name: NIH_CLIENT_SECRET
             value: "{{nih_client_secret}}"
           - name: NIH_BASE_URL
-            value: https://stsstg.nih.gov
+            value: "{{nih_base_url}}"
           - name: NIH_REDIRECT_URL
-            value: http://localhost:4010
+            value: "{{nih_redirect_url}}"
           - name: NIH_USERINFO_URL
-            value: https://stsstg.nih.gov/openid/connect/v1/userinfo
+            value: "{{nih_userinfo_url}}"
           - name: NIH_AUTHORIZE_URL
-            value: https://stsstg.nih.gov/auth/oauth/v2/authorize
+            value: "{{nih_authorize_url}}"
           - name: NIH_TOKEN_URL
-            value: https://stsstg.nih.gov/auth/oauth/v2/token
+            value: "{{nih_token_url}}"
           - name: NIH_LOGOUT_URL
-            value: https://stsstg.nih.gov/connect/session/logout
+            value: "{{nih_logout_url}}"
           - name: NIH_SCOPE
             value: "openid email profile"
           - name: NIH_PROMPT
             value: login
-          - name: NODE_ENV
-            value: "development"
-          - name: NO_AUTO_LOGIN
-            value: "false"

@@ -43,7 +43,7 @@
         mongo_db_port: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_port', nested=true, region='us-east-1' ) }}"
         mongo_db_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_password', nested=true, region='us-east-1' ) }}"
         mongo_db_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_user', nested=true, region='us-east-1' ) }}"
-        mongo_db_database: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_database', nested=true, region='us-east-1' ) }}"
+#        mongo_db_database: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.mongo_db_database', nested=true, region='us-east-1' ) }}"
 #        cookie_secret: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.cookie_secret', nested=true, region='us-east-1' ) }}"
         newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
         sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
@@ -71,7 +71,7 @@
           - name: PROJECT
             value: "{{ project_name }}"
           ## Versions
-          - name: BENTO_API_VERSION
+          - name: VERSION
             value: "{{ image_version }}"
           ## Database
           - name: MONGO_DB_HOST
@@ -82,10 +82,23 @@
             value: "{{ mongo_db_password }}"
           - name: MONGO_DB_USER
             value: "{{ mongo_db_user }}"
-          - name: MONGO_DB_DATABASE
-            value: "{{ mongo_db_database }}"
+#          - name: MONGO_DB_DATABASE
+#            value: "{{ mongo_db_database }}"
           - name: SESSION_SECRET
             value: "abcd256asghaaamnkloofghj"
+          ## Email notification config
+          - name: EMAILS_ENABLED
+            value: "false" 
+          #- name: EMAIL_SMTP_HOST
+          #  value: "false" 
+          #- name: EMAIL_SMTP_PORT
+          #  value: "false" 
+          #- name: EMAIL_USER
+          #  value: "false" 
+          #- name: EMAIL_PASSWORD
+          #  value: "false" 
+          #- name: EMAIL_URL
+            #value: "false" 
           ## Opensearch
 #          - name: ES_HOST
 #            value: "{{ es_host }}"
