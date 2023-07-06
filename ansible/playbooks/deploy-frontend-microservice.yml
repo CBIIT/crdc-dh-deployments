@@ -46,6 +46,9 @@
         newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
         ## about content
         about_content_url: "{% if tier == 'prod' %}https://raw.githubusercontent.com/CBIIT/bento-ctdc-frontend/{{ frontend_version | split('-') | first }}/src/content/prod/aboutPagesContent.yaml{% else %}https://raw.githubusercontent.com/CBIIT/bento-ctdc-frontend/{{ frontend_version | split('-') | first }}/src/content/{{ tier }}/aboutPagesContent.yaml{% endif %}"
+        #nih
+        nih_client_id: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih/{{ tier }}.nih_client_id', nested=true, region='us-east-1' ) }}"
+        nih_authorize_url: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih/{{ tier }}.nih_authorize_url', nested=true, region='us-east-1' ) }}" 
         ## ecs
         ecs_cluster_name: "{{ project_name }}-{{ tier }}-ecs"
         container_port: 80
@@ -83,4 +86,9 @@
           # Analytics
           - name: REACT_APP_GA_TRACKING_ID
             value: "{{ backend_google_analytics_id }}"
+          # NIH Login Config
+          - name: NIH_CLIENT_ID
+            value: "{{nih_client_id}}"
+          - name: NIH_AUTHORIZE_URL
+            value: "{{nih_authorize_url}}"
 
