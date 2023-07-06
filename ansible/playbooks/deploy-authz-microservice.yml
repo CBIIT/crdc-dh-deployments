@@ -107,8 +107,8 @@
             value: "{{ mongo_db_password }}"
           - name: MONGO_DB_USER
             value: "{{ mongo_db_user }}"
-          - name: MONGO_DB_DATABASE
-            value: "{{ mongo_db_database }}" 
+          #- name: MONGO_DB_DATABASE
+          #  value: "{{ mongo_db_database }}" 
           # Email Notification Config
           #- name: EMAIL_SMTP_HOST
           #  value: email-smtp.us-east-1.amazonaws.com
