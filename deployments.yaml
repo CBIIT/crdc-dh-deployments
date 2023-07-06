@@ -18,6 +18,6 @@ services:
     image: 1.0.0.12
     buildNumber: '12'
   authz:
-    version: 1.0.0.6
-    image: 1.0.0.6
-    buildNumber: '6'
+    version: 1.0.0.7
+    image: 1.0.0.7
+    buildNumber: '7'
