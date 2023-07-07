@@ -45,7 +45,7 @@
         ## newrelic
         newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
         ## about content
-        about_content_url: "{% if tier == 'prod' %}https://raw.githubusercontent.com/CBIIT/bento-ctdc-frontend/{{ frontend_version | split('-') | first }}/src/content/prod/aboutPagesContent.yaml{% else %}https://raw.githubusercontent.com/CBIIT/bento-ctdc-frontend/{{ frontend_version | split('-') | first }}/src/content/{{ tier }}/aboutPagesContent.yaml{% endif %}"
+#        about_content_url: "{% if tier == 'prod' %}https://raw.githubusercontent.com/CBIIT/bento-ctdc-frontend/{{ frontend_version | split('-') | first }}/src/content/prod/aboutPagesContent.yaml{% else %}https://raw.githubusercontent.com/CBIIT/bento-ctdc-frontend/{{ frontend_version | split('-') | first }}/src/content/{{ tier }}/aboutPagesContent.yaml{% endif %}"
         #nih
         nih_client_id: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih/{{ tier }}.nih_client_id', nested=true, region='us-east-1' ) }}"
         nih_authorize_url: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/nih/{{ tier }}.nih_authorize_url', nested=true, region='us-east-1' ) }}" 
@@ -59,17 +59,17 @@
         container_env:
           # API URLs
           - name: REACT_APP_BACKEND_API
-            value: "{% if tier == 'prod' %}https://{{subdomain}}.{{domain_name}}/v1/graphql/{% else %}https://{{subdomain}}-{{tier}}.{{domain_name}}/v1/graphql/{% endif %}"
-          - name: REACT_APP_FILE_SERVICE_API
-            value: "{% if tier == 'prod' %}https://{{subdomain}}.{{domain_name}}/api/files/{% else %}https://{{subdomain}}-{{tier}}.{{domain_name}}/api/files/{% endif %}"
+            value: "{% if tier == 'prod' %}https://{{subdomain}}.{{domain_name}}/api/graphql/{% else %}https://{{subdomain}}-{{tier}}.{{domain_name}}/api/graphql/{% endif %}"
+#          - name: REACT_APP_FILE_SERVICE_API
+#            value: "{% if tier == 'prod' %}https://{{subdomain}}.{{domain_name}}/api/files/{% else %}https://{{subdomain}}-{{tier}}.{{domain_name}}/api/files/{% endif %}"
           # Versions
           - name: REACT_APP_BE_VERSION
             value: "{{ backend_version }}"
           - name: REACT_APP_FE_VERSION
             value: "{{ frontend_version }}"
           # Static Content
-          - name: REACT_APP_ABOUT_CONTENT_URL
-            value: "{{ about_content_url }}"
+#          - name: REACT_APP_ABOUT_CONTENT_URL
+#            value: "{{ about_content_url }}"
           # New Relic
           - name: NEW_RELIC_LICENSE_KEY
             value: "{{ newrelic_license_key }}"
