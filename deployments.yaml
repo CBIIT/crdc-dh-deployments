@@ -6,9 +6,9 @@ services:
     image: 1.0.0.26
     buildNumber: '26'
   frontend:
-    version: env.61
-    image: env.61
-    buildNumber: '61'
+    version: env.62
+    image: env.62
+    buildNumber: '62'
   files:
     version: 1.4.0.21
     image: 1.4.0.21
